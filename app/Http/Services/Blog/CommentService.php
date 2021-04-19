@@ -3,16 +3,17 @@
 namespace App\Http\Services\Blog;
 
 use App\Http\Requests\AddCommentRequest;
+use App\Http\Requests\AddReplyRequest;
+use App\Http\Resources\CommentCollection;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\Reply;
 
 class CommentService 
 {
-    public function addComment(AddCommentRequest $request, $postId)
+    public function addComment(AddCommentRequest $request)
     {
-        $request['post_id'] = $postId;
-
         $request->validated();
 
         $comment = Comment::create($request->toArray());
@@ -24,10 +25,12 @@ class CommentService
         return $comment;
     }
     
-    public function getComments(int $postId)
+    public function getComments()
     {
-        $comments = Comment::with(['replies'])
-                            ->wherePostId($postId)
+        $comments = Comment::with(['replies' => function($query) {
+                                $query->where('comment_id', '!=', null);
+                            }])
+                            ->where('comment_id', '=', null)
                             ->orderBy('created_at', 'DESC')
                             ->get();
 
@@ -35,6 +38,6 @@ class CommentService
             throw new \Exception("Unable to retrieve blog post.", 404);
         }
 
-        return $comments;
+        return (new CommentCollection($comments));
     }
 }
