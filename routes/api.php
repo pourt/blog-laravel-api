@@ -19,8 +19,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/posts', [BlogController::class, 'index']);
-Route::get('/posts/{postId}', [BlogController::class, 'show']);
+Route::get('/comments', [BlogController::class, 'getComments']);
+Route::get('/comments/{commentId}', [BlogController::class, 'getComments']);
+Route::post('/comments', [BlogController::class, 'addComments']);
 
-Route::get('/posts/{postId}/comments', [BlogController::class, 'getComments']);
-Route::post('/posts/{postId}/comments', [BlogController::class, 'addComments']);
+
