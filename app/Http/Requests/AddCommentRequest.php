@@ -18,18 +18,6 @@ class AddCommentRequest extends FormRequest
     }
 
     /**
-     * Prepare the data for validation.
-     *
-     * @return void
-     */
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'post_id' => $this->postId,
-        ]);
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -37,11 +25,6 @@ class AddCommentRequest extends FormRequest
     public function rules()
     {
         return [
-            'post_id' => [
-                'required',
-                'string',
-                Rule::exists('posts','id')
-            ],
             'name' => [
                 'required',
                 'string'
