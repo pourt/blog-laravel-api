@@ -27,10 +27,7 @@ class CommentService
     
     public function getComments()
     {
-        $comments = Comment::with(['replies' => function($query) {
-                                $query->where('comment_id', '!=', null);
-                            }])
-                            ->where('comment_id', '=', null)
+        $comments = Comment::with(['replies'])
                             ->orderBy('created_at', 'DESC')
                             ->get();
 
