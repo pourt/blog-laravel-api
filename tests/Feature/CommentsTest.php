@@ -3,14 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\Comment;
-use App\Models\Post;
-use Database\Seeders\PostSeeder;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
-
-use function PHPUnit\Framework\assertJson;
 
 class CommentsTest extends TestCase
 {
@@ -76,7 +71,12 @@ class CommentsTest extends TestCase
                                 'comment',
                                 'created_at',
                                 'replies' => [
-                                    
+                                    '*' => [
+                                        'id',
+                                        'name',
+                                        'comment',
+                                        'created_at'
+                                    ]
                                 ]
                             ]
                         ]
